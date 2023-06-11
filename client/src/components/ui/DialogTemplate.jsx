@@ -10,15 +10,7 @@ import {
 import { cn } from '~/utils/';
 
 const DialogTemplate = forwardRef((props, ref) => {
-  const {
-    title,
-    description,
-    main,
-    buttons,
-    leftButtons,
-    selection,
-    className
-  } = props;
+  const { title, description, main, buttons, leftButtons, selection, className } = props;
   const { selectHandler, selectClasses, selectText } = selection || {};
 
   const defaultSelect =

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -78,14 +79,14 @@ const userSchema = mongoose.Schema(
     invitedBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
-    },
+    }
   },
   { timestamps: true }
 );
 
 //Remove refreshToken from the response
 userSchema.set('toJSON', {
-  transform: function (_doc, ret,) {
+  transform: function (_doc, ret) {
     delete ret.refreshToken;
     return ret;
   }

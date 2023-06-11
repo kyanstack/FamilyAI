@@ -4,7 +4,7 @@ import { Dialog } from '../ui/Dialog.tsx';
 import DialogTemplate from '../ui/DialogTemplate';
 import { useClearConversationsMutation } from '~/data-provider';
 
-const ClearConvos = ({ open, onOpenChange}) => {
+const ClearConvos = ({ open, onOpenChange }) => {
   const { newConversation } = store.useConversation();
   const { refreshConversations } = store.useConversations();
   const clearConvosMutation = useClearConversationsMutation();

@@ -25,7 +25,7 @@ module.exports = {
   deleteInvite: async (invite_code) => {
     try {
       return await Invite.findByIdAndDelete(invite_code).exec();
-    } catch(error) {
+    } catch (error) {
       console.log(error);
       return { message: 'Error deleting invite' };
     }

@@ -41,9 +41,9 @@ export default function TextChat({ isSearchView = false }) {
     const timeoutId = setTimeout(() => {
       inputRef.current?.focus();
     }, 100);
-    
+
     return () => clearTimeout(timeoutId);
-  }, [isSubmitting]);  
+  }, [isSubmitting]);
 
   const submitMessage = () => {
     ask({ text });
@@ -142,7 +142,7 @@ export default function TextChat({ isSearchView = false }) {
               >
                 <NewConversationMenu />
                 <TextareaAutosize
-                // set test id for e2e testing
+                  // set test id for e2e testing
                   data-testid="text-input"
                   tabIndex="0"
                   autoFocus

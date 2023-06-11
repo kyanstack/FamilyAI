@@ -72,21 +72,21 @@ const askClient = async ({
   let enc = null;
   try {
     enc = encoding_for_model(tiktokenModels.has(model) ? model : 'gpt-3.5-turbo');
-    usage.prompt_tokens = (enc.encode(promptText)).length + (enc.encode(text)).length;
+    usage.prompt_tokens = enc.encode(promptText).length + enc.encode(text).length;
   } catch (e) {
     console.log('Error encoding prompt text', e);
   }
-  
+
   const res = await client.sendMessage(text, { ...options, userId });
 
   try {
-    usage.completion_tokens = (enc.encode(res.response)).length;
+    usage.completion_tokens = enc.encode(res.response).length;
     usage.total_tokens = usage.prompt_tokens + usage.completion_tokens;
     res.usage = usage;
   } catch (e) {
     console.log('Error encoding response text', e);
   }
-  
+
   return res;
 };
 

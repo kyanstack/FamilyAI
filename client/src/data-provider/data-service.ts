@@ -106,16 +106,20 @@ export const resetPassword = (payload: t.TResetPassword) => {
 
 export const getUserList = (searchQuery: string) => {
   return request.get(endpoints.userList(searchQuery));
-}
+};
 
 export const updateUserRole = (payload: t.TUpdateUserRole) => {
   return request.patch(endpoints.updateUserRole(payload.id), payload);
-}
+};
+
+export const deleteUser = (id: string) => {
+  return request.delete(endpoints.deleteUser(id));
+};
 
 export const createInvite = (payload: t.TCreateInvite) => {
   return request.post(endpoints.createInvite(), payload);
-}
+};
 
 export const deleteInvite = (id: string) => {
   return request.delete(endpoints.deleteInvite(id));
-}
+};

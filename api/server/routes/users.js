@@ -29,7 +29,7 @@ router.get('/', requireJwtAuth, async (req, res) => {
     const users = await User.find(query);
     const invites = await Invite.find(query);
 
-    const data = [...users, ...invites.map(invite => ({ ...invite._doc, isInvite: true }))];
+    const data = [...users, ...invites.map((invite) => ({ ...invite._doc, isInvite: true }))];
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json(err);
@@ -49,6 +49,21 @@ router.patch('/:id', requireJwtAuth, async (req, res) => {
     // update role of user
     await User.updateOne({ _id: id }, { role });
     res.status(200).json({ message: 'User role updated' });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+router.delete('/:id', requireJwtAuth, async (req, res) => {
+  try {
+    const user = req.user;
+    if (!['ADMIN', 'PARENT'].includes(user.role)) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+    const { id } = req.params;
+    await User.deleteOne({ _id: id });
+    res.status(200).json({ message: 'User deleted' });
   } catch (error) {
     res.status(500).json(error);
   }

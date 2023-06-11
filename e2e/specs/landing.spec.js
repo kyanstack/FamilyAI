@@ -5,14 +5,14 @@ test.describe('Landing suite', () => {
 
   test.beforeEach(async ({ browser }) => {
     myBrowser = await browser.newContext({
-      storageState: 'e2e/auth.json',
+      storageState: 'e2e/auth.json'
     });
   });
 
   test('Landing title', async () => {
     const page = await myBrowser.newPage();
     await page.goto('http://localhost:3080/');
-    const pageTitle = await page.textContent('#landing-title')
+    const pageTitle = await page.textContent('#landing-title');
     expect(pageTitle.length).toBeGreaterThan(0);
   });
 });
