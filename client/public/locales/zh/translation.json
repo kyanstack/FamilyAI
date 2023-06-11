@@ -1,0 +1,18 @@
+{
+    "Login.tsx": "----------------------------------",
+    "greeting": "欢迎回来",
+    "emailAddress": "邮箱地址",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "login": "登陆",
+    "noAccount": "没有账户?",
+    "signUp": "注册",
+    "shortEmail": "邮箱至少3位字节",
+    "longEmail": "邮箱最多40位字节",
+    "emailRequired": "请输入邮箱地址",
+    "emailInvalid": "请输入正确的邮箱地址",
+    "shortPassword": "密码至少需要8位字节",
+    "longPassword": "密码不能超过40位字节",
+    "passwordRequired": "请输入密码",
+    "error": "登录信息错误 - 请检查您的电子邮件和密码。"
+}

@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider, QueryCache } from '@tanstack/react-qu
 import { ThemeProvider } from './hooks/ThemeContext';
 import { useApiErrorBoundary } from './hooks/ApiErrorBoundaryContext';
 import ApiErrorWatcher from './components/Auth/ApiErrorWatcher';
+import './utils/localization.js';
 
 const AuthLayout = () => (
   <AuthContextProvider>

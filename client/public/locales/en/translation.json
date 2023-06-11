@@ -1,0 +1,18 @@
+{
+    "Login.tsx": "----------------------------------",
+    "greeting": "Welcome back",
+    "emailAddress": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "login": "Login",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "shortEmail": "Email must be at least 3 characters",
+    "longEmail": "Email must be less than 40 characters",
+    "emailRequired": "Email is required",
+    "emailInvalid": "You must enter a valid email address",
+    "shortPassword": "Password must be at least 8 characters",
+    "longPassword": "Password must be less than 40 characters",
+    "passwordRequired": "Password is required",
+    "error": "Unable to login with the information provided. Please check your credentials and try again."
+}
