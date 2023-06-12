@@ -8,6 +8,7 @@ import NavLink from './NavLink';
 import ExportModel from './ExportConversation/ExportModel';
 import ClearConvos from './ClearConvos';
 import DarkMode from './DarkMode';
+import SwitchLang from './SwitchLang';
 import Logout from './Logout';
 import { useAuthContext } from '~/hooks/AuthContext';
 import { cn } from '~/utils/';
@@ -16,6 +17,7 @@ import DotsIcon from '../svg/DotsIcon';
 import store from '~/store';
 import UserIcon from '~/components/svg/UserIcon';
 import UserManagementModel from './UserManagement/UserManagementModel';
+import { useTranslation } from 'react-i18next';
 
 export default function NavLinks({ clearSearch, isSearchEnabled }) {
   const [showExports, setShowExports] = useState(false);
@@ -33,6 +35,7 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
   const clickHandler = () => {
     if (exportable) setShowExports(true);
   };
+  const { t, i18n } = useTranslation();
 
   return (
     <>
@@ -85,19 +88,22 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                       exportable ? 'cursor-pointer text-white' : 'cursor-not-allowed text-gray-400'
                     )}
                     svg={() => <Download size={16} />}
-                    text="Export conversation"
+                    text={t('exportConvos')}
                     clickHandler={clickHandler}
                   />
                 </Menu.Item>
                 <div className="my-1.5 h-px bg-white/20" role="none" />
-                <Menu.Item as="div">
+                <Menu.Item>
                   <DarkMode />
+                </Menu.Item>
+                <Menu.Item as='div'>
+                  <SwitchLang />
                 </Menu.Item>
                 <Menu.Item as="div">
                   <NavLink
                     className="flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-sm text-white transition-colors duration-200 hover:bg-gray-700"
                     svg={() => <TrashIcon />}
-                    text="Clear conversations"
+                    text={t("clearConvos")}
                     clickHandler={() => setShowClearConvos(true)}
                   />
                 </Menu.Item>
@@ -107,7 +113,7 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                     <NavLink
                       className="flex w-full cursor-pointer items-center gap-3 px-3 py-3 text-sm text-white transition-colors duration-200 hover:bg-gray-700"
                       svg={() => <UserIcon />}
-                      text="Manage users"
+                      text={t("manageUsers")}
                       clickHandler={() => setShowUserManagement(true)}
                     />
                   </Menu.Item>

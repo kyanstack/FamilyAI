@@ -16,7 +16,6 @@ function Login() {
   const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
-  const [language, setLanguage] = useState(i18n.language);
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -25,7 +24,6 @@ function Login() {
   const toggleLanguage = () => {
     const newLanguage = i18n.language === "en" ? "zh" : "en";
     changeLanguage(newLanguage);
-    setLanguage(newLanguage);
   };
 
   useEffect(() => {
@@ -48,7 +46,7 @@ function Login() {
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
-            {t('error')}
+            {t('loginError')}
           </div>
         )}
         <form
@@ -151,7 +149,7 @@ function Login() {
           {' '}
           {t('noAccount')}{' '}
           <a href="/register" className="p-1 text-green-500 hover:underline">
-            {t('signUp')}
+            {t('register')}
           </a>
         </p>
         

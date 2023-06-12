@@ -5,6 +5,7 @@ import { useRegisterUserMutation, TRegisterUser } from '~/data-provider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { useTranslation } from 'react-i18next';
 
 function Registration() {
   const SERVER_URL = import.meta.env.DEV
@@ -27,6 +28,16 @@ function Registration() {
 
   const password = watch('password');
 
+  const { t, i18n } = useTranslation();
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  const toggleLanguage = () => {
+    const newLanguage = i18n.language === "en" ? "zh" : "en";
+    changeLanguage(newLanguage);
+  };
+  
   const onRegisterUserFormSubmit = (data: TRegisterUser) => {
     registerUser.mutate(data, {
       onSuccess: () => {
@@ -44,13 +55,13 @@ function Registration() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
-        <h1 className="mb-4 text-center text-3xl font-semibold">Create your account</h1>
+        <h1 className="mb-4 text-center text-3xl font-semibold">{t("createAccount")}</h1>
         {error && (
           <div
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
             role="alert"
           >
-            There was an error attempting to register your account. Please try again. {errorMessage}
+            {t('registerError')}
           </div>
         )}
         <form
@@ -73,14 +84,14 @@ function Registration() {
                   return false;
                 }}
                 {...register('name', {
-                  required: 'Name is required',
+                  required: t('nameRequired'),
                   minLength: {
-                    value: 3,
-                    message: 'Name must be at least 3 characters'
+                    value: 1,
+                    message: t('shortName')
                   },
                   maxLength: {
                     value: 80,
-                    message: 'Name must be less than 80 characters'
+                    message: t('longName')
                   }
                 })}
                 aria-invalid={!!errors.name}
@@ -91,7 +102,7 @@ function Registration() {
                 htmlFor="name"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Full Name
+                {t('fullName')}
               </label>
             </div>
 
@@ -109,14 +120,14 @@ function Registration() {
                 id="username"
                 aria-label="Username"
                 {...register('username', {
-                  required: 'Username is required',
+                  required: t('usernameRequired'),
                   minLength: {
                     value: 3,
-                    message: 'Username must be at least 3 characters'
+                    message: t('shortUsername')
                   },
                   maxLength: {
                     value: 20,
-                    message: 'Username must be less than 20 characters'
+                    message: t('longUsername')
                   }
                 })}
                 aria-invalid={!!errors.username}
@@ -128,7 +139,7 @@ function Registration() {
                 htmlFor="username"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Username
+                {t('username')}
               </label>
             </div>
 
@@ -147,18 +158,18 @@ function Registration() {
                 autoComplete="email"
                 aria-label="Email"
                 {...register('email', {
-                  required: 'Email is required',
+                  required: t('emailRequired'),
                   minLength: {
                     value: 3,
-                    message: 'Email must be at least 6 characters'
+                    message: t('shortEmail')
                   },
                   maxLength: {
                     value: 120,
-                    message: 'Email should not be longer than 120 characters'
+                    message: t('longEmail')
                   },
                   pattern: {
                     value: /\S+@\S+\.\S+/,
-                    message: 'You must enter a valid email address'
+                    message: t('emailInvalid')
                   }
                 })}
                 aria-invalid={!!errors.email}
@@ -169,7 +180,7 @@ function Registration() {
                 htmlFor="email"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Email
+                {t('email')}
               </label>
             </div>
             {errors.email && (
@@ -187,14 +198,14 @@ function Registration() {
                 autoComplete="current-password"
                 aria-label="Password"
                 {...register('password', {
-                  required: 'Password is required',
+                  required: t('passwordRequired'),
                   minLength: {
                     value: 8,
-                    message: 'Password must be at least 8 characters'
+                    message: t('shortPassword')
                   },
                   maxLength: {
                     value: 40,
-                    message: 'Password must be less than 40 characters'
+                    message: t('longPassword')
                   }
                 })}
                 aria-invalid={!!errors.password}
@@ -205,7 +216,7 @@ function Registration() {
                 htmlFor="password"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Password
+                {t('password')}
               </label>
             </div>
 
@@ -228,7 +239,7 @@ function Registration() {
                   return false;
                 }}
                 {...register('confirm_password', {
-                  validate: (value) => value === password || 'Passwords do not match'
+                  validate: (value) => value === password || t('passwordsDontMatch')
                 })}
                 aria-invalid={!!errors.confirm_password}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -238,7 +249,7 @@ function Registration() {
                 htmlFor="confirm_password"
                 className="absolute left-2.5 top-4 z-10 origin-[0] -translate-y-4 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:text-green-500"
               >
-                Confirm Password
+                {t('confirmPassword')}
               </label>
             </div>
 
@@ -262,15 +273,15 @@ function Registration() {
               aria-label="Submit registration"
               className="w-full transform rounded-sm bg-green-500 px-4 py-3 tracking-wide text-white transition-colors duration-200 hover:bg-green-600 focus:bg-green-600 focus:outline-none"
             >
-              Continue
+              {t('register')}
             </button>
           </div>
         </form>
         <p className="my-4 text-center text-sm font-light text-gray-700">
           {' '}
-          Already have an account?{' '}
+          {t('haveAccount')}{' '}
           <a href="/login" className="p-1 font-medium text-green-500 hover:underline">
-            Login
+            {t('login')}
           </a>
         </p>
         {showGoogleLogin && (
@@ -325,6 +336,22 @@ function Registration() {
           </>
         )}
       </div>
+      <div className="fixed w-56 top-2 right-2">
+          <div className="mx-8 shadow rounded-full h-10 mt-4 flex p-1 relative items-center"
+          onClick={toggleLanguage}>
+              <div className="w-full flex justify-center">
+                  <button>English</button>
+              </div>
+              <div className={'w-full flex justify-center'}>
+                  <button>简体中文</button>
+              </div>
+              <span 
+              className={`elSwitch bg-green-500 shadow text-white flex items-center justify-center w-1/2 rounded-full h-8 transition-all top-[4px] absolute ${
+                i18n.language === "en" ? "left-1" : "left-[50%]"}`}>
+              {i18n.language === "en" ? "English" : "简体中文"}
+              </span>
+          </div>
+        </div>
     </div>
   );
 }

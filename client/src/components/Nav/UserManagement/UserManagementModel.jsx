@@ -14,6 +14,7 @@ import {
   useUpdateUserRoleMutation
 } from '~/data-provider';
 import { useAuthContext } from '~/hooks/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function UserManagementModel({ open, onOpenChange }) {
   const [searchMemberQuery, setSearchMemberQuery] = useState('');
@@ -26,6 +27,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
   const [inviteEmails, setInviteEmails] = useState([]);
   const [inviteRole, setInviteRole] = useState('PARENT');
   const inviteInputRef = useRef(null);
+  const { t, i18n } = useTranslation();
 
   const handleSearchMember = (e) => {
     setSearchMemberQuery(e.target.value);
@@ -42,6 +44,9 @@ export default function UserManagementModel({ open, onOpenChange }) {
 
   const adminDropdownOptions = ['ADMIN', 'PARENT', 'CHILD'];
   const parentDropdownOptions = ['PARENT', 'CHILD'];
+
+  // const adminDropdownOptions = [t("admin"), t("parent"), t("child")];
+  // const parentDropdownOptions = [t("parent"), t("child")];
 
   const handleInviteEmails = (e) => {
     const emails = e.target.value.split(',');
@@ -66,13 +71,13 @@ export default function UserManagementModel({ open, onOpenChange }) {
       inviteInputRef.current.value = '';
       setInviteEmails([]);
       setInviteRole('PARENT');
-      alert('Invitation sent successfully');
+      alert(t('invSent'));
     }
   }, [createInviteMutation.isSuccess]);
 
   useEffect(() => {
     if (deleteInviteMutation.isSuccess) {
-      alert('Invitation deleted successfully');
+      alert(t("invDeleted"));
     }
   }, [deleteInviteMutation.isSuccess]);
 
@@ -82,7 +87,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTemplate
-        title="User Management"
+        title={t("userManagement")}
         className="top-1/2 max-w-full -translate-y-1/2 sm:max-w-lg"
         main={
           <div className="flex w-full flex-col items-center gap-6 divide-y dark:divide-gray-600">
@@ -92,7 +97,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
               </Label>
               <Input
                 id="search"
-                placeholder="Search members"
+                placeholder={t("searchMembers")}
                 value={searchMemberQuery}
                 onChange={handleSearchMember}
                 className={cn(
@@ -116,12 +121,12 @@ export default function UserManagementModel({ open, onOpenChange }) {
                             className="mr-3 inline-block h-10 w-10 rounded object-cover"
                           />
                           <div className="flex flex-col">
-                            <strong>Pending invitation</strong>
+                            <strong>{t("pendingInv")}</strong>
                             <span className="text-gray-500">{user?.email}</span>
                           </div>
                         </div>
                         <Button variant="destructive" size="sm" onClick={() => deleteInviteMutation.mutate(user?._id)}>
-                          Cancel
+                          {t("cancel")}
                         </Button>
                       </div>
                     );
@@ -141,7 +146,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
                             {user?.name}{' '}
                             {user?.email === authUser?.email && (
                               <span className="ml-2 rounded bg-gray-100 px-1 text-xs font-semibold uppercase tracking-wide text-gray-900">
-                                YOU
+                                {t("you")}
                               </span>
                             )}
                           </strong>
@@ -165,13 +170,13 @@ export default function UserManagementModel({ open, onOpenChange }) {
             </div>
             <div className="w-full py-5">
               <Label htmlFor="email" className="mb-2 inline-block text-left text-sm font-medium">
-                Invite new members
+                {t("inviteNewMembers")}
               </Label>
               <div className="relative">
                 <Input
                   ref={inviteInputRef}
                   id="email"
-                  placeholder="Enter email"
+                  placeholder={t("enterEmail")}
                   onChange={handleInviteEmails}
                   className={cn(
                     defaultTextProps,
@@ -189,7 +194,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
                 />
               </div>
               <span className="text-xs dark:text-gray-500">
-                You can add comma separated emails to invite multiple users at once
+                {t("invMultipleMembersMessage")}
               </span>
             </div>
           </div>
@@ -201,8 +206,8 @@ export default function UserManagementModel({ open, onOpenChange }) {
             className="dark:hover:gray-400 border-gray-700 bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-800"
           >
             {inviteEmails.length === 1
-              ? `Invite 1 member`
-              : `Invite ${inviteEmails.length} members`}
+              ? t("invMember")
+              : `${t("invite")} ${inviteEmails.length} ${t("members")}`}
           </DialogButton>
         }
         selection={null}
