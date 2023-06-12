@@ -308,13 +308,24 @@ export const useGetUserListQuery = (searchQuery: string): UseQueryResult<t.TUser
 export const useUpdateUserRoleMutation = (): UseMutationResult<unknown> => {
   const queryClient = useQueryClient();
   // @ts-ignore ignore line
-  return useMutation((id: string, payload: t.TUpdateUserRole) => dataService.updateUserRole(id, payload),
+  return useMutation(
+    (id: string, payload: t.TUpdateUserRole) => dataService.updateUserRole(id, payload),
     {
       onSuccess: () => {
         queryClient.invalidateQueries([QueryKeys.user]);
       }
     }
   );
+};
+
+export const useDeleteUserMutation = (): UseMutationResult<unknown> => {
+  const queryClient = useQueryClient();
+  // @ts-ignore ignore line
+  return useMutation((id: string) => dataService.deleteUser(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([QueryKeys.user]);
+    }
+  });
 };
 
 export const useCreateInviteMutation = (): UseMutationResult<t.TInvite | unknown> => {
@@ -335,4 +346,4 @@ export const useDeleteInviteMutation = (): UseMutationResult<unknown> => {
       queryClient.invalidateQueries([QueryKeys.user]);
     }
   });
-}
+};

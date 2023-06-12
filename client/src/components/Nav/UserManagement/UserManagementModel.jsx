@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import { SearchIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import TrashIcon from '~/components/svg/TrashIcon';
 import { Button } from '~/components/ui/Button';
 import { Dialog, DialogButton } from '~/components/ui/Dialog';
 import DialogTemplate from '~/components/ui/DialogTemplate';
@@ -10,6 +11,7 @@ import { Label } from '~/components/ui/Label';
 import {
   useCreateInviteMutation,
   useDeleteInviteMutation,
+  useDeleteUserMutation,
   useGetUserListQuery,
   useUpdateUserRoleMutation
 } from '~/data-provider';
@@ -19,6 +21,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
   const [searchMemberQuery, setSearchMemberQuery] = useState('');
   const { data, isLoading, refetch } = useGetUserListQuery(searchMemberQuery);
   const updateRoleMutation = useUpdateUserRoleMutation();
+  const deleteUserMutation = useDeleteUserMutation();
   const createInviteMutation = useCreateInviteMutation();
   const deleteInviteMutation = useDeleteInviteMutation();
   const { user: authUser } = useAuthContext();
@@ -38,7 +41,13 @@ export default function UserManagementModel({ open, onOpenChange }) {
 
   useEffect(() => {
     refetch();
-  }, [updateRoleMutation.isSuccess, refetch, deleteInviteMutation.isSuccess, createInviteMutation.isSuccess]);
+  }, [
+    updateRoleMutation.isSuccess,
+    refetch,
+    deleteInviteMutation.isSuccess,
+    createInviteMutation.isSuccess,
+    deleteUserMutation.isSuccess
+  ]);
 
   const adminDropdownOptions = ['ADMIN', 'PARENT', 'CHILD'];
   const parentDropdownOptions = ['PARENT', 'CHILD'];
@@ -61,6 +70,18 @@ export default function UserManagementModel({ open, onOpenChange }) {
     }
   };
 
+  const handleInviteCancel = (id) => {
+    if (confirm('Are you sure you want to CANCEL the invite?')) {
+      deleteInviteMutation.mutate(id);
+    }
+  };
+
+  const handleUserDelete = (id, name) => {
+    if (confirm(`Are you sure you want to DELETE ${name} user?`)) {
+      deleteUserMutation.mutate(id);
+    }
+  };
+
   useEffect(() => {
     if (createInviteMutation.isSuccess) {
       inviteInputRef.current.value = '';
@@ -70,12 +91,6 @@ export default function UserManagementModel({ open, onOpenChange }) {
     }
   }, [createInviteMutation.isSuccess]);
 
-  useEffect(() => {
-    if (deleteInviteMutation.isSuccess) {
-      alert('Invitation deleted successfully');
-    }
-  }, [deleteInviteMutation.isSuccess]);
-
   const defaultTextProps =
     'rounded-md border border-gray-200 focus:border-slate-400 focus:bg-gray-50 bg-transparent text-sm shadow-[0_0_10px_rgba(0,0,0,0.05)] outline-none placeholder:text-gray-400 focus:outline-none focus:ring-gray-400 focus:ring-opacity-20 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-500 dark:bg-gray-700 focus:dark:bg-gray-600 dark:text-gray-50 dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] dark:focus:border-gray-400 dark:focus:outline-none dark:focus:ring-0 dark:focus:ring-gray-400 dark:focus:ring-offset-0';
 
@@ -83,9 +98,9 @@ export default function UserManagementModel({ open, onOpenChange }) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTemplate
         title="User Management"
-        className="top-1/2 max-w-full -translate-y-1/2 sm:max-w-lg"
+        className="max-w-full first-line:block sm:max-w-xl md:top-1/2 md:-translate-y-1/2"
         main={
-          <div className="flex w-full flex-col items-center gap-6 divide-y dark:divide-gray-600">
+          <div className="items-between flex w-full flex-1 flex-col gap-6 divide-y overflow-auto dark:divide-gray-600 sm:h-auto">
             <div className="relative w-full">
               <Label htmlFor="search" className="text-left text-sm font-medium">
                 <SearchIcon className="absolute bottom-3 left-3 h-5 w-5 text-gray-300" />
@@ -101,42 +116,57 @@ export default function UserManagementModel({ open, onOpenChange }) {
                 )}
               />
             </div>
-            <div className="flex max-h-80 min-h-[14rem] w-full flex-col gap-5 self-stretch overflow-y-auto px-1 py-5 dark:text-gray-300">
+            <div className="flex w-full flex-col gap-5 self-stretch overflow-y-auto px-1 py-5 dark:text-gray-300 md:max-h-80 md:min-h-[14rem]">
               {!isLoading &&
                 data?.map((user) => {
                   if (user?.isInvite) {
                     return (
-                      <div key={user?._id} className="flex items-center justify-between">
+                      <div
+                        key={user?._id}
+                        className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4"
+                      >
                         <div className="flex items-center">
                           <img
-                            src={`https://avatars.dicebear.com/api/initials/-.svg`}
+                            src={`https://api.dicebear.com/6.x/initials/svg?scale=80&seed=${
+                              user?.email + user?._id
+                            }`}
                             alt="avatar"
                             width={40}
                             height={40}
                             className="mr-3 inline-block h-10 w-10 rounded object-cover"
                           />
-                          <div className="flex flex-col">
+                          <div className="flex flex-col truncate">
                             <strong>Pending invitation</strong>
-                            <span className="text-gray-500">{user?.email}</span>
+                            <span className="truncate text-gray-500">{user?.email}</span>
                           </div>
                         </div>
-                        <Button variant="destructive" size="sm" onClick={() => deleteInviteMutation.mutate(user?._id)}>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          className="w-44"
+                          onClick={() => handleInviteCancel(user?._id)}
+                        >
                           Cancel
                         </Button>
                       </div>
                     );
                   }
                   return (
-                    <div key={user?.id} className="flex items-center justify-between">
-                      <div className="flex items-center">
+                    <div
+                      key={user?.id}
+                      className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-4"
+                    >
+                      <div className="flex w-auto items-center">
                         <img
-                          src={`https://avatars.dicebear.com/api/initials/${user?.name}.svg`}
+                          src={`https://api.dicebear.com/6.x/initials/svg?scale=80&seed=${
+                            user?.name + user?._id
+                          }`}
                           alt={user?.name}
                           width={40}
                           height={40}
                           className="mr-3 inline-block h-10 w-10 rounded object-cover"
                         />
-                        <div className="flex flex-col">
+                        <div className="flex flex-col truncate">
                           <strong>
                             {user?.name}{' '}
                             {user?.email === authUser?.email && (
@@ -145,7 +175,7 @@ export default function UserManagementModel({ open, onOpenChange }) {
                               </span>
                             )}
                           </strong>
-                          <span className="text-gray-500">{user?.email}</span>
+                          <span className="truncate text-gray-500">{user?.email}</span>
                         </div>
                       </div>
                       <Dropdown
@@ -154,11 +184,19 @@ export default function UserManagementModel({ open, onOpenChange }) {
                         options={
                           authUser?.role === 'ADMIN' ? adminDropdownOptions : parentDropdownOptions
                         }
+                        containerClassName="w-28 place-self-end"
                         className={cn({
                           'cursor-pointer': user?.id !== authUser?.id,
                           'cursor-not-allowed': user?.id === authUser?.id
                         })}
                       />
+                      <Button
+                        variant="ghost"
+                        className="w-12 place-self-end hover:!bg-red-500"
+                        onClick={() => handleUserDelete(user?.id, user?.name)}
+                      >
+                        <TrashIcon />
+                      </Button>
                     </div>
                   );
                 })}

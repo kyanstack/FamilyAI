@@ -213,12 +213,12 @@ export type TResetPassword = {
 export type TUpdateUserRole = {
   id: string;
   role: string;
-}
+};
 
 export type TCreateInvite = {
   emails: string[];
   role: string;
-}
+};
 
 export type TInvite = {
   id: string;
@@ -227,8 +227,8 @@ export type TInvite = {
   role: string;
   invitedAt: string;
   acceptedAt: string;
-}
+};
 
 export type TDeleteInvite = {
   id: string;
-}
+};

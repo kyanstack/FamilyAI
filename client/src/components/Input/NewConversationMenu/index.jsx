@@ -137,7 +137,7 @@ export default function NewConversationMenu() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="min-w-[300px] dark:bg-gray-700 z-[100]"
+          className="z-[100] min-w-[300px] dark:bg-gray-700"
           onCloseAutoFocus={(event) => event.preventDefault()}
         >
           <DropdownMenuLabel
@@ -165,7 +165,10 @@ export default function NewConversationMenu() {
           <div className="mt-2 w-full" />
 
           <DropdownMenuLabel className="flex items-center dark:text-gray-300">
-            <span className="cursor-pointer mr-auto " onClick={() => setShowPresets((prev) => !prev)}>
+            <span
+              className="mr-auto cursor-pointer "
+              onClick={() => setShowPresets((prev) => !prev)}
+            >
               {showPresets ? 'Hide ' : 'Show '} Presets
             </span>
             <FileUpload onFileSelected={onFileSelected} />

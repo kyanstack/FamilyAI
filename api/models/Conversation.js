@@ -83,7 +83,7 @@ module.exports = {
                 ? { $in: ['ADMIN', 'PARENT', 'CHILD'] }
                 : user?.role === 'PARENT'
                   ? { $in: ['PARENT', 'CHILD'] }
-                  : 'CHILD',
+                  : 'CHILD'
           }).exec()
         )
       );

@@ -8,8 +8,8 @@ const tokenizer = require('./tokenizer');
 const auth = require('./auth');
 const oauth = require('./oauth');
 const { router: endpoints } = require('./endpoints');
-const users = require('./users')
-const invites = require('./invites')
+const users = require('./users');
+const invites = require('./invites');
 
 module.exports = {
   search,

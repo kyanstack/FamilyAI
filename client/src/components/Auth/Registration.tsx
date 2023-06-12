@@ -23,7 +23,7 @@ function Registration() {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const registerUser = useRegisterUserMutation();
 
-  const [searchParams] = useSearchParams()
+  const [searchParams] = useSearchParams();
 
   const password = watch('password');
 
@@ -59,7 +59,11 @@ function Registration() {
           method="POST"
           onSubmit={handleSubmit((data) => onRegisterUserFormSubmit(data))}
         >
-          <input type="hidden" defaultValue={searchParams.get('invite_code') as string} {...register('invite_code')} />
+          <input
+            type="hidden"
+            defaultValue={searchParams.get('invite_code') as string}
+            {...register('invite_code')}
+          />
           <div className="mb-2">
             <div className="relative">
               <input

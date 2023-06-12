@@ -84,16 +84,20 @@ export const resetPassword = () => {
 
 export const userList = (searchQuery: string) => {
   return `/api/users?search=${searchQuery}`;
-}
+};
 
 export const updateUserRole = (id: string) => {
   return `/api/users/${id}`;
-}
+};
+
+export const deleteUser = (id: string) => {
+  return `/api/users/${id}`;
+};
 
 export const createInvite = () => {
   return `/api/invites`;
-}
+};
 
 export const deleteInvite = (id: string) => {
   return `/api/invites/${id}`;
-}
+};

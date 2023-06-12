@@ -50,15 +50,20 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                   <img
                     className="rounded-sm"
                     src={
-                      user?.avatar || `https://avatars.dicebear.com/api/initials/${user?.name}.svg`
+                      user?.avatar ||
+                      `https://api.dicebear.com/6.x/initials/svg?scale=80&seed=${
+                        user?.name + user?._id
+                      }`
                     }
-                    alt=""
+                    alt="avatar"
                   />
                 </div>
               </div>
               <div className="grow overflow-hidden text-ellipsis whitespace-nowrap text-left text-white">
                 {user?.name || 'USER'}
-                <span className="text-xs font-medium uppercase px-1 bg-gray-300 text-gray-800 rounded ml-2">{user?.role}</span>
+                <span className="ml-2 rounded bg-gray-300 px-1 text-xs font-medium uppercase text-gray-800">
+                  {user?.role}
+                </span>
               </div>
               <DotsIcon />
             </Menu.Button>

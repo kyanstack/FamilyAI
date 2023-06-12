@@ -6,7 +6,7 @@ const inviteSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true,
+    trim: true
   },
   invitedBy: {
     type: Schema.Types.ObjectId,
@@ -14,12 +14,12 @@ const inviteSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ['ADMIN', 'PARENT', 'CHILD'],
+    enum: ['ADMIN', 'PARENT', 'CHILD']
   },
   invitedAt: {
     type: Date,
     default: Date.now
-  },
+  }
 });
 
 module.exports = mongoose.model('Invite', inviteSchema);

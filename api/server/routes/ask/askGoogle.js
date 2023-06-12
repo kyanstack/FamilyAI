@@ -58,7 +58,7 @@ const ask = async ({ text, endpointOption, parentMessageId = null, conversationI
   let responseMessageId;
   let lastSavedTimestamp = 0;
   const { overrideParentMessageId = null } = req.body;
-  const user = req.user
+  const user = req.user;
 
   try {
     const getIds = (data) => {

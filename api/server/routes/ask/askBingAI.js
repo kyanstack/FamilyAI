@@ -95,7 +95,7 @@ const ask = async ({
   res
 }) => {
   let { text, parentMessageId: userParentMessageId, messageId: userMessageId } = userMessage;
-  const user = req.user
+  const user = req.user;
 
   let responseMessageId = crypto.randomUUID();
 
@@ -182,7 +182,11 @@ const ask = async ({
     await saveMessage(responseMessage);
     responseMessage.messageId = newResponseMessageId;
 
-    let conversationUpdate = { conversationId, bingConversationId: newConversationId, endpoint: 'bingAI' };
+    let conversationUpdate = {
+      conversationId,
+      bingConversationId: newConversationId,
+      endpoint: 'bingAI'
+    };
 
     if (endpointOption?.jailbreak) {
       conversationUpdate.jailbreak = true;

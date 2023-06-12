@@ -21,7 +21,7 @@ const getIcon = (props) => {
         <img
           className="rounded-sm"
           src={`https://api.dicebear.com/6.x/initials/svg?seed=${
-            userFullName || user?.name || 'User'
+            (userFullName || user?.name || 'User') + user?._id
           }&fontFamily=Verdana&fontSize=36`}
           alt="avatar"
         />

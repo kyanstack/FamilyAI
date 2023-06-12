@@ -17,7 +17,7 @@ const convoSchema = mongoose.Schema(
     },
     user: {
       type: String,
-      default: null,
+      default: null
     },
     userFullName: {
       type: String,
@@ -31,7 +31,7 @@ const convoSchema = mongoose.Schema(
     },
     userRole: {
       type: String,
-      default: null,
+      default: null
     },
     messages: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
     // google only
