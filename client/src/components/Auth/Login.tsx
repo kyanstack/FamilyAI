@@ -4,6 +4,7 @@ import { TLoginUser } from '~/data-provider';
 import { useAuthContext } from '~/hooks/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '~/components/ui/LanguageToggle';
 
 function Login() {
   const { login, error, isAuthenticated } = useAuthContext();
@@ -16,15 +17,6 @@ function Login() {
   const navigate = useNavigate();
 
   const { t, i18n } = useTranslation();
-
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
-
-  const toggleLanguage = () => {
-    const newLanguage = i18n.language === "en" ? "zh" : "en";
-    changeLanguage(newLanguage);
-  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -154,22 +146,7 @@ function Login() {
         </p>
         
       </div>
-      <div className="fixed w-56 top-2 right-2">
-          <div className="mx-8 shadow rounded-full h-10 mt-4 flex p-1 relative items-center"
-          onClick={toggleLanguage}>
-              <div className="w-full flex justify-center">
-                  <button>English</button>
-              </div>
-              <div className={'w-full flex justify-center'}>
-                  <button>简体中文</button>
-              </div>
-              <span 
-              className={`elSwitch bg-green-500 shadow text-white flex items-center justify-center w-1/2 rounded-full h-8 transition-all top-[4px] absolute ${
-                i18n.language === "en" ? "left-1" : "left-[50%]"}`}>
-              {i18n.language === "en" ? "English" : "简体中文"}
-              </span>
-          </div>
-        </div>
+        <LanguageToggle />
     </div>
     
   );

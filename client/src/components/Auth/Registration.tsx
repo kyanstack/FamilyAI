@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '~/components/ui/LanguageToggle';
 
 function Registration() {
   const SERVER_URL = import.meta.env.DEV
@@ -29,14 +30,6 @@ function Registration() {
   const password = watch('password');
 
   const { t, i18n } = useTranslation();
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
-
-  const toggleLanguage = () => {
-    const newLanguage = i18n.language === "en" ? "zh" : "en";
-    changeLanguage(newLanguage);
-  };
   
   const onRegisterUserFormSubmit = (data: TRegisterUser) => {
     registerUser.mutate(data, {
@@ -55,7 +48,9 @@ function Registration() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
-        <h1 className="mb-4 text-center text-3xl font-semibold">{t("createAccount")}</h1>
+        <h1 className="mb-4 text-center text-3xl font-semibold">
+          {t('createAccount')}
+        </h1>
         {error && (
           <div
             className="relative mt-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
@@ -70,7 +65,11 @@ function Registration() {
           method="POST"
           onSubmit={handleSubmit((data) => onRegisterUserFormSubmit(data))}
         >
-          <input type="hidden" defaultValue={searchParams.get('invite_code') as string} {...register('invite_code')} />
+          <input
+            type="hidden"
+            defaultValue={searchParams.get('invite_code') as string}
+            {...register('invite_code')}
+          />
           <div className="mb-2">
             <div className="relative">
               <input
@@ -87,12 +86,12 @@ function Registration() {
                   required: t('nameRequired'),
                   minLength: {
                     value: 1,
-                    message: t('shortName')
+                    message: t('shortName'),
                   },
                   maxLength: {
                     value: 80,
-                    message: t('longName')
-                  }
+                    message: t('longName'),
+                  },
                 })}
                 aria-invalid={!!errors.name}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -123,12 +122,12 @@ function Registration() {
                   required: t('usernameRequired'),
                   minLength: {
                     value: 3,
-                    message: t('shortUsername')
+                    message: t('shortUsername'),
                   },
                   maxLength: {
                     value: 20,
-                    message: t('longUsername')
-                  }
+                    message: t('longUsername'),
+                  },
                 })}
                 aria-invalid={!!errors.username}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -161,16 +160,16 @@ function Registration() {
                   required: t('emailRequired'),
                   minLength: {
                     value: 3,
-                    message: t('shortEmail')
+                    message: t('shortEmail'),
                   },
                   maxLength: {
                     value: 120,
-                    message: t('longEmail')
+                    message: t('longEmail'),
                   },
                   pattern: {
                     value: /\S+@\S+\.\S+/,
-                    message: t('emailInvalid')
-                  }
+                    message: t('emailInvalid'),
+                  },
                 })}
                 aria-invalid={!!errors.email}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -201,12 +200,12 @@ function Registration() {
                   required: t('passwordRequired'),
                   minLength: {
                     value: 8,
-                    message: t('shortPassword')
+                    message: t('shortPassword'),
                   },
                   maxLength: {
                     value: 40,
-                    message: t('longPassword')
-                  }
+                    message: t('longPassword'),
+                  },
                 })}
                 aria-invalid={!!errors.password}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -239,7 +238,8 @@ function Registration() {
                   return false;
                 }}
                 {...register('confirm_password', {
-                  validate: (value) => value === password || t('passwordsDontMatch')
+                  validate: (value) =>
+                    value === password || t('passwordsDontMatch'),
                 })}
                 aria-invalid={!!errors.confirm_password}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -280,7 +280,10 @@ function Registration() {
         <p className="my-4 text-center text-sm font-light text-gray-700">
           {' '}
           {t('haveAccount')}{' '}
-          <a href="/login" className="p-1 font-medium text-green-500 hover:underline">
+          <a
+            href="/login"
+            className="p-1 font-medium text-green-500 hover:underline"
+          >
             {t('login')}
           </a>
         </p>
@@ -336,22 +339,7 @@ function Registration() {
           </>
         )}
       </div>
-      <div className="fixed w-56 top-2 right-2">
-          <div className="mx-8 shadow rounded-full h-10 mt-4 flex p-1 relative items-center"
-          onClick={toggleLanguage}>
-              <div className="w-full flex justify-center">
-                  <button>English</button>
-              </div>
-              <div className={'w-full flex justify-center'}>
-                  <button>简体中文</button>
-              </div>
-              <span 
-              className={`elSwitch bg-green-500 shadow text-white flex items-center justify-center w-1/2 rounded-full h-8 transition-all top-[4px] absolute ${
-                i18n.language === "en" ? "left-1" : "left-[50%]"}`}>
-              {i18n.language === "en" ? "English" : "简体中文"}
-              </span>
-          </div>
-        </div>
+      <LanguageToggle />
     </div>
   );
 }

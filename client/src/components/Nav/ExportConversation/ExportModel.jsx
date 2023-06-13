@@ -11,6 +11,7 @@ import { Checkbox } from '~/components/ui/Checkbox.tsx';
 import Dropdown from '~/components/ui/Dropdown';
 import { cn } from '~/utils/';
 import { useScreenshot } from '~/utils/screenshotContext';
+import { useTranslation } from 'react-i18next';
 
 import store from '~/store';
 import cleanupPreset from '~/utils/cleanupPreset.js';
@@ -28,6 +29,8 @@ export default function ExportModel({ open, onOpenChange }) {
   const conversation = useRecoilValue(store.conversation) || {};
   const messagesTree = useRecoilValue(store.messagesTree) || [];
   const endpointsConfig = useRecoilValue(store.endpointsConfig);
+
+  const { t, i18n } = useTranslation();
 
   const getSiblingIdx = useRecoilCallback(
     ({ snapshot }) =>
@@ -310,14 +313,14 @@ export default function ExportModel({ open, onOpenChange }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTemplate
-        title="Export conversation"
+        title={t('exportConversation')}
         className="max-w-full sm:max-w-2xl"
         main={
           <div className="flex w-full flex-col items-center gap-6">
             <div className="grid w-full gap-6 sm:grid-cols-2">
               <div className="col-span-1 flex flex-col items-start justify-start gap-2">
                 <Label htmlFor="filename" className="text-left text-sm font-medium">
-                  Filename
+                  {t('filename')}
                 </Label>
                 <Input
                   id="filename"
@@ -332,7 +335,7 @@ export default function ExportModel({ open, onOpenChange }) {
               </div>
               <div className="col-span-1 flex flex-col items-start justify-start gap-2">
                 <Label htmlFor="type" className="text-left text-sm font-medium">
-                  Type
+                  {t('type')}
                 </Label>
                 <Dropdown
                   id="type"
@@ -351,7 +354,7 @@ export default function ExportModel({ open, onOpenChange }) {
               <div className="col-span-1 flex flex-col items-start justify-start gap-2">
                 <div className="grid w-full items-center gap-2">
                   <Label htmlFor="includeOptions" className="text-left text-sm font-medium">
-                    Include endpoint options
+                    {t("endpointOptions")}
                   </Label>
                   <div className="flex h-[40px] w-full items-center space-x-3">
                     <Checkbox
@@ -365,14 +368,14 @@ export default function ExportModel({ open, onOpenChange }) {
                       htmlFor="includeOptions"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-gray-50"
                     >
-                      {exportOptionsSupport ? 'Enabled' : 'Not Supported'}
+                      {exportOptionsSupport ? t("enable") : t("notSupported")}
                     </label>
                   </div>
                 </div>
               </div>
               <div className="grid w-full items-center gap-2">
                 <Label htmlFor="exportBranches" className="text-left text-sm font-medium">
-                  Export all message branches
+                  {t('exportAllBranches')}
                 </Label>
                 <div className="flex h-[40px] w-full items-center space-x-3">
                   <Checkbox
@@ -393,7 +396,7 @@ export default function ExportModel({ open, onOpenChange }) {
               {type === 'json' ? (
                 <div className="grid w-full items-center gap-2">
                   <Label htmlFor="recursive" className="text-left text-sm font-medium">
-                    Recursive or sequential?
+                    {t("recursiveOption")}
                   </Label>
                   <div className="flex h-[40px] w-full items-center space-x-3">
                     <Checkbox
@@ -406,7 +409,7 @@ export default function ExportModel({ open, onOpenChange }) {
                       htmlFor="recursive"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-gray-50"
                     >
-                      Recursive
+                      {t("recursive")}
                     </label>
                   </div>
                 </div>
@@ -420,7 +423,7 @@ export default function ExportModel({ open, onOpenChange }) {
               onClick={exportConversation}
               className="dark:hover:gray-400 border-gray-700 bg-green-600 text-white hover:bg-green-700 dark:hover:bg-green-800"
             >
-              Export
+              {t("export")}
             </DialogButton>
           </>
         }

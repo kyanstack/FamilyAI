@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRequestPasswordResetMutation, TRequestPasswordReset } from '~/data-provider';
 import { useTranslation } from 'react-i18next';
+import LanguageToggle from '~/components/ui/LanguageToggle';
 
 function RequestPasswordReset() {
   const {
@@ -28,19 +29,13 @@ function RequestPasswordReset() {
   };
 
   const { t, i18n } = useTranslation();
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
-
-  const toggleLanguage = () => {
-    const newLanguage = i18n.language === "en" ? "zh" : "en";
-    changeLanguage(newLanguage);
-  };
   
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-white pt-6 sm:pt-0">
       <div className="mt-6 w-96 overflow-hidden bg-white px-6 py-4 sm:max-w-md sm:rounded-lg">
-        <h1 className="mb-4 text-center text-3xl font-semibold">{t("resetPassword")}</h1>
+        <h1 className="mb-4 text-center text-3xl font-semibold">
+          {t('resetPassword')}
+        </h1>
         {success && (
           <div
             className="relative mt-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700"
@@ -74,16 +69,16 @@ function RequestPasswordReset() {
                   required: t('emailRequired'),
                   minLength: {
                     value: 3,
-                    message: t('shortEmail')
+                    message: t('shortEmail'),
                   },
                   maxLength: {
                     value: 120,
-                    message: t('longEmail')
+                    message: t('longEmail'),
                   },
                   pattern: {
                     value: /\S+@\S+\.\S+/,
-                    message: t('emailInvalid')
-                  }
+                    message: t('emailInvalid'),
+                  },
                 })}
                 aria-invalid={!!errors.email}
                 className="peer block w-full appearance-none rounded-t-md border-0 border-b-2 border-gray-300 bg-gray-50 px-2.5 pb-2.5 pt-5 text-sm text-gray-900 focus:border-green-500 focus:outline-none focus:ring-0"
@@ -114,22 +109,7 @@ function RequestPasswordReset() {
           </div>
         </form>
       </div>
-      <div className="fixed w-56 top-2 right-2">
-          <div className="mx-8 shadow rounded-full h-10 mt-4 flex p-1 relative items-center"
-          onClick={toggleLanguage}>
-              <div className="w-full flex justify-center">
-                  <button>English</button>
-              </div>
-              <div className={'w-full flex justify-center'}>
-                  <button>简体中文</button>
-              </div>
-              <span 
-              className={`elSwitch bg-green-500 shadow text-white flex items-center justify-center w-1/2 rounded-full h-8 transition-all top-[4px] absolute ${
-                i18n.language === "en" ? "left-1" : "left-[50%]"}`}>
-              {i18n.language === "en" ? "English" : "简体中文"}
-              </span>
-          </div>
-        </div>
+      <LanguageToggle />
     </div>
   );
 }

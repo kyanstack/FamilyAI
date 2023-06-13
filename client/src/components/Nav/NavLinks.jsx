@@ -96,7 +96,7 @@ export default function NavLinks({ clearSearch, isSearchEnabled }) {
                 <Menu.Item>
                   <DarkMode />
                 </Menu.Item>
-                <Menu.Item as='div'>
+                <Menu.Item>
                   <SwitchLang />
                 </Menu.Item>
                 <Menu.Item as="div">

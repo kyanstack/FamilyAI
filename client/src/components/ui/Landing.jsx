@@ -6,6 +6,7 @@ import SunIcon from '../svg/SunIcon';
 import LightningIcon from '../svg/LightningIcon';
 import CautionIcon from '../svg/CautionIcon';
 import ChatIcon from '../svg/ChatIcon';
+import { useTranslation } from 'react-i18next';
 
 import store from '~/store';
 
@@ -14,7 +15,7 @@ export default function Landing() {
   const setText = useSetRecoilState(store.text);
   const conversation = useRecoilValue(store.conversation);
   const { title = 'New Chat' } = conversation || {};
-
+  const { t, i18n } = useTranslation();
   useDocumentTitle(title);
 
   const clickHandler = (e) => {
@@ -36,66 +37,66 @@ export default function Landing() {
           id="landing-title"
           className="mb-10 ml-auto mr-auto mt-6 flex items-center justify-center gap-2 text-center text-4xl font-semibold sm:mb-16 md:mt-[10vh]"
         >
-          {import.meta.env.VITE_APP_TITLE || 'ChatGPT Clone'}
+          {import.meta.env.VITE_APP_TITLE || t('productName')}
         </h1>
         <div className="items-start gap-3.5 text-center md:flex">
           <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
             <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2">
               <SunIcon />
-              Examples
+              {t('examples')}
             </h2>
             <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
               <button
                 onClick={clickHandler}
                 className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900"
               >
-                &quot;Explain quantum computing in simple terms&quot; →
+                &quot;{t('example1')}&quot; →
               </button>
               <button
                 onClick={clickHandler}
                 className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900"
               >
-                &quot;Got any creative ideas for a 10 year old&apos;s birthday?&quot; →
+                &quot;{t('example2')}&quot; →
               </button>
               <button
                 onClick={clickHandler}
                 className="w-full rounded-md bg-gray-50 p-3 hover:bg-gray-200 dark:bg-white/5 dark:hover:bg-gray-900"
               >
-                &quot;How do I make an HTTP request in Javascript?&quot; →
+                &quot;{t('example3')}&quot; →
               </button>
             </ul>
           </div>
           <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
             <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2">
               <LightningIcon />
-              Capabilities
+              {t('capabilities')}
             </h2>
             <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Remembers what user said earlier in the conversation
+                {t('capability1')}
               </li>
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Allows user to provide follow-up corrections
+                {t('capability2')}
               </li>
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Trained to decline inappropriate requests
+                {t('capability3')}
               </li>
             </ul>
           </div>
           <div className="mb-8 flex flex-1 flex-col gap-3.5 md:mb-auto">
             <h2 className="m-auto flex items-center gap-3 text-lg font-normal md:flex-col md:gap-2">
               <CautionIcon />
-              Limitations
+              {t('limitations')}
             </h2>
             <ul className="m-auto flex w-full flex-col gap-3.5 sm:max-w-md">
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                May occasionally generate incorrect information
+                {t('limitation1')}
               </li>
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                May occasionally produce harmful instructions or biased content
+                {t('limitation1')}
               </li>
               <li className="w-full rounded-md bg-gray-50 p-3 dark:bg-white/5">
-                Limited knowledge of world and events after 2021
+                {t('limitation1')}
               </li>
             </ul>
           </div>
