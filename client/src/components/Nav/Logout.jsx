@@ -1,10 +1,11 @@
 import { forwardRef } from 'react';
 import LogOutIcon from '../svg/LogOutIcon';
 import { useAuthContext } from '~/hooks/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const Logout = forwardRef(() => {
   const { user, logout } = useAuthContext();
-
+  const { t, i18n } = useTranslation();
   const handleLogout = () => {
     logout();
     window.location.reload();
@@ -17,7 +18,7 @@ const Logout = forwardRef(() => {
     >
       <LogOutIcon />
       {user?.username || 'USER'}
-      <small>Log out</small>
+      <small>{t("logOut")}</small>
     </button>
   );
 });

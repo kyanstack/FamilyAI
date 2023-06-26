@@ -2,10 +2,13 @@ import { forwardRef } from 'react';
 import { Search } from 'lucide-react';
 import { useRecoilState } from 'recoil';
 import store from '~/store';
+import { useTranslation } from 'react-i18next';
 
 const SearchBar = forwardRef((props, ref) => {
   const { clearSearch } = props;
   const [searchQuery, setSearchQuery] = useRecoilState(store.searchQuery);
+
+  const { t, i18n } = useTranslation();
 
   const handleKeyUp = (e) => {
     const { value } = e.target;
@@ -34,7 +37,7 @@ const SearchBar = forwardRef((props, ref) => {
         onKeyDown={(e) => {
           e.code === 'Space' ? e.stopPropagation() : null;
         }}
-        placeholder="Search messages"
+        placeholder={t("searchMessages")}
         onKeyUp={handleKeyUp}
       />
     </div>
