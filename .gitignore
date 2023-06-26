@@ -1,2 +1,8 @@
 node_modules/
 .prettierrc
+*.env.example
+.gitignore
+*.DS_Store
+*.env
+.DS_Store
+client/.DS_Store
